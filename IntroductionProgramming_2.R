@@ -27,7 +27,7 @@ diffChristmas <- difftime("2019-12-24", Sys.Date(), units = "secs")
 
 # read table in R 
 
-setwd("F:/Eagle/Introduction.Programming.Geostatistics/Scripts")
+setwd("F:/Eagle/Introduction/Scripts")
 
 table <- read.table("test.csv", header = T, sep = ",")
 #
@@ -62,7 +62,7 @@ names(df)
 class(df)
 dim(df)
 plot(df$TimeScan.mNDWImax)
-
+write.csv(df, "output.csv")
 
 # Indexing 
 
@@ -146,7 +146,7 @@ df_2 <- data.frame(plot="location_name_2", measure1=runif(50) * 100, measure2=ro
 df <- rbind(df_1,df_2)
 head(df)
 
-View(df[100:105,c("plot","measure1","measure2")])
+View(df[80:105,c("plot","measure1","measure2")])
 
 
 # creating list
@@ -154,5 +154,3 @@ View(df[100:105,c("plot","measure1","measure2")])
 a <- c(1,2,3,4,5,6)
 b <- c("a","b","c","d","e","f")
 c <- list(a,b)
-
-# randomizer w. all names
