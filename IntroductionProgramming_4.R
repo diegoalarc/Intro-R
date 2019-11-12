@@ -5,11 +5,17 @@
 install.packages("brickr") # not available for r 3.6.1
 install.packages("rwhatsapp") # analyse you r conversations
 
+setwd("F:/Eagle/Introduction_Programming/Scripts")
+df <- read.csv("output.csv")
 
 # using ggplot2 
 
 library(ggplot2)
 library(rayshader)
+library(gganimate)
+library(gifski)
+library(transformr)
+
 x11()
 x <-  data.frame(x=1, y=1, label ="ggplot2 introduction \n@ EAGLE")
 ggplot(data=x, aes(x=x,y=y)) + geom_text(aes(label=label), size = 15)
@@ -110,12 +116,11 @@ ggplot(df, aes(x=MOD.evi, y=LCname)) + geom_density_ridges2()
 p <- ggplot(data=df, aes(y=L8.ndvi, x=L8.evi, color=LCname, size=SRTM))+
   geom_point(alpha=.8)
 
-ggplot(data=df, aes(L8.savi, color=LCname)) + geom_density() 
+d <- ggplot(data=df, aes(L8.savi, color=LCname, fill = LCname)) + geom_density(alpha = 0.5) 
   
-d + transition_states(LCname, transition_length = 2, state_length = 2, wrap = TRUE) +
+d + transition_states(LCname, transition_length = 20, state_length = 20, wrap = TRUE) +
   ease_aes('sine-in-out')+
   # labs(title = "semester:{closest_state}")+
-  shadow_wake(wake_length = 0.1, alpha = FALSE) +
   enter_fade() +
   exit_fade()
   
