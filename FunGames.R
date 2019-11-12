@@ -17,3 +17,9 @@ devtools::install_github("gaborcsardi/praise")
 library(praise)
 praise()
 
+
+# fun stuff  12.11.
+
+install.packages("brickr") # not available for r 3.6.1
+install.packages("rwhatsapp") # analyse you r conversations
+install.packages("ggthemes")
