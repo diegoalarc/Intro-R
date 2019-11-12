@@ -5,14 +5,14 @@ library(datapasta)
 library(raster)
 
 # creating a list, and querying different data sets
-a <-  runif(199)
-b <- c("aa","bb","cc","dd")
-c <- list(a,b)
-
-df$newcol <-df$measure1 * df$measure2
-head(df)
-
-df[grep("a", df$ID, ignore.case = T),]
+# a <-  runif(199)
+# b <- c("aa","bb","cc","dd")
+# c <- list(a,b)
+# 
+# df$newcol <-df$measure1 * df$measure2
+# head(df)
+# 
+# df[grep("a", df$ID, ignore.case = T),]
 
 # random list of yes and no
 x1 <-  rbinom(10, size = 1, prob = 0.5)
@@ -30,7 +30,7 @@ ifelse(x2=="no", "maybe", "sure")
 
 # working with actual data (Steigerwald Datasets)
 
-setwd("F:/Eagle/Introduction Programming/Scripts")
+setwd("F:/Eagle/Introduction_Programming/Scripts")
 df <- read.csv("output.csv")
 
 #only selecting SRTM and LUCAS_LC
