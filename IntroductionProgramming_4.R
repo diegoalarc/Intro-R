@@ -138,13 +138,12 @@ df$SRTM_Rec <- cut(df$SRTM,
 
 # pointplot wrapped around SRTM_Rec
 
-p <- ggplot(data=df, aes(y=L8.ndvi, x=L8.evi, color=LCname, ))+
-  geom_point(alpha=.8) + geom_smooth(method = lm) +
+p <- ggplot(data=df, aes(y=TimeScan.NDVIsd, x=TimeScan.NDVIavg, color=LCname, ))+
+  geom_point(alpha=.8) +
   facet_wrap(~SRTM_Rec)
 
 p + transition_states(LCname, transition_length = 20, state_length = 20, wrap = TRUE) +
   ease_aes('sine-in-out')+
   # labs(title = "semester:{closest_state}")+
   enter_fade() +
-  exit_shrink() + 
-  theme_tufte()
+  exit_shrink()  
