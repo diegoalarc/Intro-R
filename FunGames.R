@@ -23,3 +23,19 @@ praise()
 install.packages("brickr") # not available for r 3.6.1
 install.packages("rwhatsapp") # analyse you r conversations
 install.packages("ggthemes")
+
+# fun stuff 26.11. --> skraahhhh boi 
+
+devtools::install_github("brooke-watson/BRRR")
+library(BRRR)
+
+f <- function(sound, sleep = 0.75){
+  Sys.sleep(sleep)
+  BRRR::skrrrahh(sound)
+}
+
+for(i in 1:5){
+  f(0)
+}
+
+
