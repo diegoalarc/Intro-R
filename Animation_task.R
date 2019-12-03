@@ -1,6 +1,8 @@
 library(ggplot2)
 library(gganimate)
 library(ggpubr)
+library(magick)
+library(dplyr)
 theme_set(theme_minimal())
 
 data <- read.csv("~/dev/Intro-R/germany.csv", header = T, sep = ",")
@@ -13,9 +15,7 @@ p <- ggplot(data, aes(Jahr, SchuldenProEW)) +
   ylim(5, 30) +
   scale_x_continuous(breaks = seq(1990,2018,2)) +
   labs(x = "Year", y = "debt per inhabitant (Billion Euro)") + 
-  theme(legend.position = "none")
-
-p + geom_point(aes(group = seq_along(Jahr)), colour = "blue") +
+  theme(legend.position = "none") + geom_point(aes(group = seq_along(Jahr)), colour = "blue") +
   transition_reveal(Jahr)
 
 t <- ggplot(data, aes(Jahr, Gesamtschulden)) +
@@ -41,26 +41,44 @@ e + geom_point(aes(group = seq_along(Jahr)), colour = "purple") +
 
 ########################################
 
-z <- ggplot(data, aes(Jahr, EW_p)) +
+citizens_gif <- ggplot(data, aes(Jahr, EW_p)) +
   geom_line() +
-  ylim(0.75,1.5) +
+  ylim(0.9,4) +
   scale_x_continuous(breaks = seq(1990,2018,2)) +
   labs(x = "Year", y = "German citicens, 1990 = 1") + 
-  theme(legend.position = "none")
-
-z + geom_point(aes(group = seq_along(Jahr)), colour = "blue") +
+  theme(legend.position = "none") + geom_point(aes(group = seq_along(Jahr)), colour = "blue") +
   transition_reveal(Jahr)
 
-anim_save("German_pop")
+citizens_gif
 
-f <- ggplot(data, aes(Jahr, Schuld_p)) +
+anim_save("Ger_pop2")
+
+debt_gif <- ggplot(data, aes(Jahr, Schuld_p)) +
   geom_line() +
   ylim(0.9,4) +
   scale_x_continuous(breaks = seq(1990,2018,2)) +
   labs(x = "Year", y = "total debt of Germany, 1990 = 1") + 
-  theme(legend.position = "none")
-
-f + geom_point(aes(group = seq_along(Jahr)), colour = "red") +
+  theme(legend.position = "none") + geom_point(aes(group = seq_along(Jahr)), colour = "red") +
   transition_reveal(Jahr)
 
-anim_save("German_debt")
+debt_gif
+
+anim_save("Ger_debt2")
+
+# must save these animations to get them appended to each other
+
+
+citizens_mgif <- image_read("~/dev/Intro-R/Ger_pop2")
+debt_mgif <- image_read("~/dev/Intro-R/Ger_debt2")
+
+new_gif <- image_append(c(citizens_mgif[1], debt_mgif[1]))
+for(i in 2:100){
+  combined <- image_append(c(citizens_mgif[i], debt_mgif[i]))
+  new_gif <- c(new_gif, combined)
+}
+
+new_gif   # tada, two gifs side by side
+anim_save("Ger_combined")
+
+
+

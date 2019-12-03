@@ -21,7 +21,7 @@ praise()
 # fun stuff  12.11.
 
 install.packages("brickr") # not available for r 3.6.1
-install.packages("rwhatsapp") # analyse you r conversations
+install.packages("rwhatsapp") # analyse your conversations
 install.packages("ggthemes")
 
 # fun stuff 26.11. --> skraahhhh boi 
@@ -38,4 +38,10 @@ for(i in 1:5){
   f(0)
 }
 
+# fun stuff 03.12.
 
+????""
+
+devtools::install_github("gsimchoni/kandinsky")
+library(kandinsky)
+kandinsky(df)
