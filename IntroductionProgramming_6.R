@@ -65,6 +65,12 @@ ggR(uc$map, forceCat = T, geom_raster = T)
 #Supervised classification using training data polygons created in QGIS 
 #and function superClass()
 
+setwd("F:/Bachelor/BA/DATEN/Sentinel2")
+
+dez <- brick("Dez_10m.grd")
+nov <- brick("Nov_10m.grd")
+jan <- brick("Jan_10m.grd")
+
 library(RStoolbox)
 library(rgdal)
 
@@ -73,7 +79,102 @@ plot(nov[[1]])
 plot(td, add=T)
 
 sc <-  superClass(nov,trainData = td,
-                  responseCol = "Class",
-                  filename = "Classification.tif")
+                  responseC
+                  ol = "Class",
+                  model = "svmRadial",
+                  filename = "Classification_svm.tif")
 plot(sc$map)
+
+
+###########################################################
+
+setwd("F:/Eagle/Introduction_Programming/")
+
+# Extensive random forest code
+
+library(maptools)
+library(randomForest)
+library(raster)
+
+vec <- readOGR("F:/Eagle/Introduction_Programming/Training_Data.shp")
+satImage <- nov
+
+# Number of sample points
+numsamps <- 100
+
+# id col name
+attName <- "id"
+
+# output imagery name
+outImage <- "randF_result.tif"
+
+
+# loop over each class, selecting all polygons and assign random points
+
+uniqueAtt <- unique(vec[[attName]])
+for (x in 1:length(uniqueAtt)) {
+  class_data <- vec[vec[[attName]] == uniqueAtt[x],]
+  classpts <- spsample(class_data,type="random",n=numsamps)
+  if (x == 1){
+    xy <- classpts
+  } else {
+    xy <- rbind(xy, classpts)
+  }
+}
+
+
+
+# plot the random generated points on one of the rasters - visual check
+pdf("training_pts.pdf")
+  image(satImage,1)
+  points(xy)
+dev.off()
+
+# extracting pixel val for training data
+
+temp <- over(x=xy, y=vec)
+
+response <- factor(temp[[attName]])
+
+trainvals <- cbind(response, extract(satImage, xy)) # combine point with raster val
+
+# Fit model 
+
+print("Starting to calculate rf object")
+randfor <- randomForest(as.factor(response) ~. ,
+                        data = trainvals,
+                        na.action = na.omit,
+                        confusion = T)
+
+# apply to raster
+
+print("Starting prediction")
+predict(satImage, randfor, filename=outImage, progress='text', format='GTiff',datatype='INT1U',
+        type='response', overwrite = T)
+
+
+# it works :) 
+
+
+
+
+# extract temporal boundaries per year
+
+tb = list()
+  if(sYear == eYear) {tb[[1]] = c(sDoy,eDoy)}
+    if(sYear != eYear){
+      for(y in 1:nYears){
+        if((sYear+(y-1) %% 4) > 1) {nDays = 366} else {nDays = 365} # number of Days in the year
+          if(y == 1) {tb[[1]] = c(sDoy,nDays)}
+            if(y > 1) {tb[[length(tb)+1]] = c(0,nDays)}
+              }
+            if(y == nYears) {tb[[length(tb)+1]] = c(0,as.numeric(eDoy))}
+    }
+
+
+
+
+
+
+
 
