@@ -79,8 +79,7 @@ plot(nov[[1]])
 plot(td, add=T)
 
 sc <-  superClass(nov,trainData = td,
-                  responseC
-                  ol = "Class",
+                  responseCol = "Class",
                   model = "svmRadial",
                   filename = "Classification_svm.tif")
 plot(sc$map)
@@ -95,6 +94,7 @@ setwd("F:/Eagle/Introduction_Programming/")
 library(maptools)
 library(randomForest)
 library(raster)
+library(rgdal)
 
 vec <- readOGR("F:/Eagle/Introduction_Programming/Training_Data.shp")
 satImage <- nov
@@ -111,6 +111,8 @@ outImage <- "randF_result.tif"
 
 # loop over each class, selecting all polygons and assign random points
 
+tmp <- compareCRS(vec, satImage)
+if(tmp == TRUE){
 uniqueAtt <- unique(vec[[attName]])
 for (x in 1:length(uniqueAtt)) {
   class_data <- vec[vec[[attName]] == uniqueAtt[x],]
@@ -120,9 +122,7 @@ for (x in 1:length(uniqueAtt)) {
   } else {
     xy <- rbind(xy, classpts)
   }
-}
-
-
+}}else {print("The projections dont match!")}
 
 # plot the random generated points on one of the rasters - visual check
 pdf("training_pts.pdf")
@@ -133,9 +133,7 @@ dev.off()
 # extracting pixel val for training data
 
 temp <- over(x=xy, y=vec)
-
 response <- factor(temp[[attName]])
-
 trainvals <- cbind(response, extract(satImage, xy)) # combine point with raster val
 
 # Fit model 
