@@ -65,24 +65,32 @@ ggR(uc$map, forceCat = T, geom_raster = T)
 #Supervised classification using training data polygons created in QGIS 
 #and function superClass()
 
-setwd("F:/Bachelor/BA/DATEN/Sentinel2")
+setwd("F:/Bachelor/BA/DATEN/VI/Sentinel2")
 
 dez <- brick("Dez_10m.grd")
 nov <- brick("Nov_10m.grd")
 jan <- brick("Jan_10m.grd")
 
+vi <- brick("VI_Nov_10m.grd")
+hillshade <- raster("hillshade.tif")
+
+
 library(RStoolbox)
 library(rgdal)
 
 td <- readOGR("F:/Eagle/Introduction_Programming/Training_Data.shp")
-plot(nov[[1]])
+  plot(nov[[1]])
 plot(td, add=T)
 
 sc <-  superClass(nov,trainData = td,
-                  responseCol = "Class",
-                  model = "svmRadial",
+                  responseCol = "Class", trainPartition = 0.5,
+                  model = "rf",
                   filename = "Classification_svm.tif")
-plot(sc$map)
+a <- ggR(sc$map, forceCat = T, geom_raster = T) +
+  scale_fill_manual(values = c("yellow","red","brown","green","black"),
+                    labels = c("Agriculture", "Built up", "Forest_noLeaf", "Forest_Leaf", "Shadow"))
+
+sc$validation$performance
 
 
 ###########################################################

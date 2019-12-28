@@ -45,3 +45,16 @@ for(i in 1:5){
 devtools::install_github("gsimchoni/kandinsky")
 library(kandinsky)
 kandinsky(df)
+
+# fun stuff 10.12.
+
+
+# animated snow in r -- https://paulvanderlaken.com/2018/12/17/animated-snow-in-r-2-0-gganimate-api-update/
+# or https://gist.github.com/ikashnitsky/6a6590b0dde04993cc20d26d6dcb31c7
+
+# colorblindr
+
+
+
+
+
