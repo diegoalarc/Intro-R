@@ -4,6 +4,8 @@
 
 r12$new2 <- (r12[[2]] / r12[[3]]) * r12[[1]]
 
+#test 
+
 library(RStoolbox)
 
 ggRGB(r12, r = 2, b= 3, g= 1)
