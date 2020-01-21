@@ -57,10 +57,10 @@ result_tidy <- result_tidy[2:length(result_tidy)]
 # 1: 1881
 # 80: 1980
 # 138: 2018
-result_tidy <- result_tidy[c(seq(1,138, by=1))]
+result_tidy <- result_tidy[c(seq(1,length(result_tidy), by=1))]
 
 # Define working directory
-setwd("path/to/your/working/directory/")
+setwd("C:/Users/Marius/Desktop/Test")
 
 # Define output directory of downloads
 # create one if not yet there, warning if it exists
@@ -127,7 +127,7 @@ names(my_raster) <- layer_names
 
 # time-series data, to use for temporal aggregation
 # define the first and last year to grab from the time series 
-rasterHist <- my_raster[[grep("1961", layer_names):grep("1990", layer_names)]]
+rasterHist <- my_raster[[grep("1881", layer_names):grep("2017", layer_names)]]
 
 # year for comparison to long term statistics
 rasterComp <- my_raster$Year_2018
@@ -145,8 +145,14 @@ rasterComp@crs <- sp::CRS(my_crs)
 # Divide by 10 to get values in C as described in the description pdf on the ftp server:
 # ftp://ftp-cdc.dwd.de/pub/CDC/grids_germany/monthly/air_temperature_mean/
 # DESCRIPTION_gridsgermany_monthly_air_temperature_mean_en.pdf
+
+# add If Statement !!
+
+if(Temp == TRUE){
 rasterHist <- rasterHist/10
 rasterComp <- rasterComp/10
+}
+
 
 # Calculate mean temperature between 1961 and 1990
 rasterHist_mean <- mean(rasterHist)
