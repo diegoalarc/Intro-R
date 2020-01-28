@@ -61,3 +61,7 @@ devtools::install_github("Torvaney/ggsoccer")
 devtools::install_github("JoGall/soccermatics")
 devtools::install_github("gadenbuie/ggpomological")
 
+
+# fun stuff 21.01.2020
+
+devtools::install_github("zzawadz/dragulaR")
